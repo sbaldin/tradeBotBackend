@@ -1,16 +1,15 @@
-package hello.controller;
+package com.github.fesswood.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicLong;
 
-import hello.CustomerRepository;
-import hello.TickRepository;
-import hello.model.Tick;
+import com.github.fesswood.entity.Tick;
+import com.github.fesswood.repository.TickRepository;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +37,7 @@ public class CandleStickController {
 
     @RequestMapping(value = "/insertRandom", method = RequestMethod.GET)
     public long insertRandom() {
-        Tick tick = new Tick(System.currentTimeMillis(), 0.255, 0.26, 0.256, 0.259, 50);
+        Tick tick = new Tick(new Date(System.currentTimeMillis()), 0.255, 0.26, 0.256, 0.259, 50);
         log.info("call insertRandom with " + tick);
         repository.save(tick);
         return repository.count();
@@ -46,10 +45,10 @@ public class CandleStickController {
 
 
 
-    @RequestMapping(path = "/getAllTick")
+    @RequestMapping(path = "/getAllTicks")
     public List<Tick> getAllTicks() {
         log.info("call getAllTicks ");
-        return repository.findAll();
+        return Lists.newArrayList(repository.findAll());
     }
 
     @RequestMapping(path = "/clear", produces = {MediaType.APPLICATION_JSON_VALUE})

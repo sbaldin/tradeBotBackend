@@ -1,37 +1,48 @@
-package hello.model;
+package com.github.fesswood.entity;
 
-import org.springframework.data.annotation.Id;
+
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Класс описывающий одну операцию с ценными бумагами в определенный момент времени за минуту
- * Created by fesswood on 18.06.16.
+ * Created by fesswood on 18.66.16.
  */
-public class Tick {
+@Entity(name = "candlestick")
+public class Tick extends DomainObject {
     @Id
-    long mTimestamp;
+    @Column(name = "tickTimestamp", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    Date mTimestamp;
+    @Column(name = "minPrice", nullable = false, precision=6, scale=6)
     double mMinPrice;
+    @Column(name = "maxPrice", nullable = false, precision=6, scale=6)
     double mMaxPrice;
+    @Column(name = "closingPrice", nullable = false, precision=6, scale=6)
     double mClosingPrice;
+    @Column(name = "openingPrice", nullable = false, precision=6, scale=6)
     double mOpeningPrice;
-    double mPartCount;
+    @Column(name = "partCount", nullable = false)
+    int mPartCount;
 
     public Tick() {
     }
 
-    public Tick(long mTimestamp, double mMinPrice, double mMaxPrice, double mClosingPrice, double mOpeningPrice, double mPartCount) {
-        this.mTimestamp = mTimestamp;
-        this.mMinPrice = mMinPrice;
-        this.mMaxPrice = mMaxPrice;
-        this.mClosingPrice = mClosingPrice;
-        this.mOpeningPrice = mOpeningPrice;
-        this.mPartCount = mPartCount;
+    public Tick(Date timestamp, double minPrice, double maxPrice, double closingPrice, double openingPrice, int partCount) {
+        this.mTimestamp = timestamp;
+        this.mMinPrice = minPrice;
+        this.mMaxPrice = maxPrice;
+        this.mClosingPrice = closingPrice;
+        this.mOpeningPrice = openingPrice;
+        this.mPartCount = partCount;
     }
 
-    public long getmTimestamp() {
+    public Date getmTimestamp() {
         return mTimestamp;
     }
 
-    public void setmTimestamp(long mTimestamp) {
+    public void setmTimestamp(Date mTimestamp) {
         this.mTimestamp = mTimestamp;
     }
 
@@ -67,11 +78,11 @@ public class Tick {
         this.mOpeningPrice = mOpeningPrice;
     }
 
-    public double getmPartCount() {
+    public int getmPartCount() {
         return mPartCount;
     }
 
-    public void setmPartCount(double mPartCount) {
+    public void setmPartCount(int mPartCount) {
         this.mPartCount = mPartCount;
     }
 
